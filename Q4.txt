@@ -1,0 +1,105 @@
+#<?php
+# ^^^^ This `#<?php` is NOT a token.
+
+######################################################################
+#                                                                    #
+#     This program is a "polyglot" of Ruby, Perl, Bash and PHP.      #
+#                                                                    #
+#                    Run it on each interpreter.                     #
+#                                                                    #
+######################################################################
+
+false && 1 << 0;
+
+$a = 'a';
+$/* 0;
+
+# */$a
+=begin
+();
+1?
+0
+
+: //; env file="$0" bash -c 'echo "xrl3 vf: ${file'$(printf '\043\043')'*/}" | tr A-Z a-z | tr a-z n-za-m'; : << 'nil;'
+
+1; function begin() {}
+
+const CIPHER_ALGORITHM = 'aes-256-cbc';
+const CIPHERTEXT = 'Iy9whlJmmxqa6krqCCUkCEH/F/S74z6AUZkfunZvOEuoBAQLLTg58u+GdToISxYj';
+const PLAINTEXT_HASH = '$2y$10$cTnU7S.hAl7LdiIAoCPNoefMwx6fvn4Q0LpVCzO27s80ruUHbSAVy';
+const KEY_PATTERN = '/^[0-9A-Fa-f]{32}$/';
+
+if (!defined('OPENSSL_VERSION_NUMBER')) {
+  fputs(STDERR, "\nOpenSSL not available.\n");
+  exit(1);
+}
+if (!in_array(CIPHER_ALGORITHM, openssl_get_cipher_methods(), true)) {
+  fputs(STDERR, "\n" . CIPHER_ALGORITHM . " not available.\n");
+  exit(1);
+}
+if (!isset($argv[1]) || !isset($argv[2]) || !isset($argv[3])) {
+  fputs(STDERR, "\nUsage: php $argv[0] <key1> <key2> <key3>.\n");
+  exit(1);
+}
+if (preg_match(KEY_PATTERN, $argv[1]) !== 1) {
+  fputs(STDERR, "\nInvalid <key1>.\n");
+  exit(1);
+}
+if (preg_match(KEY_PATTERN, $argv[2]) !== 1) {
+  fputs(STDERR, "\nInvalid <key2>.\n");
+  exit(1);
+}
+if (strlen($argv[3]) !== 6) {
+  fputs(STDERR, "\nInvalid <key3>.\n");
+  exit(1);
+}
+$key3 = $argv[3];
+$key3 = str_repeat($key3, strlen($key3));
+$key1 = hex2bin($argv[1]) ^ $key3;
+$key2 = hex2bin($argv[2]) ^ $key3;
+
+$plaintext = openssl_decrypt(CIPHERTEXT, CIPHER_ALGORITHM, $key1, 0, $key2);
+if (!password_verify($plaintext, PLAINTEXT_HASH)) {
+  fputs(STDERR, "\n<key1>, <key2> or <key3> is incorrect.\n");
+  exit(1);
+}
+echo "${plaintext}\n";
+
+$a = <<<'nil'
+
+=end
+
+require 'digest/md5'
+
+ds = %w[
+  35589a1cc0b3ca90fc52d0e711c0c434
+  a690a0615820e2e5c53901d8b8958509
+  fca6a9b459e702fa93513c6a8b8c5dfe
+]
+k = ''
+Module.constants.map(&:to_s).sort.each do |i|
+  d = Digest::MD5.hexdigest(i)
+  k += i if ds.include?(d)
+end
+puts 'key1 is: ' + Digest::MD5.hexdigest(k)
+
+'
+=cut
+
+use utf8;
+use Digest::MD5 qw(md5_hex);
+
+my @ds = qw[
+  30b92d3052fef34fca8f30d42bb1e395
+  6836a6ebcbbf861ed2db0da1babef4bb
+  98f5665676b2179cea2e607dacddc2d0
+];
+my $k = '';
+foreach my $i (sort keys %INC) {
+  my $d = md5_hex($i);
+  $k .= $i if grep /^$d$/, @ds;
+}
+print "key2 is: " . md5_hex($k) . "\n";
+
+'# ';
+nil;
